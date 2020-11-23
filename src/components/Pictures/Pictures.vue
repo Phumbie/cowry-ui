@@ -1,0 +1,181 @@
+<template>
+  <div class="container">
+    <Loader v-if="loading" />
+    <div class="grid" ref="grid" v-else>
+      <div class="item photo" v-for="picture in pictures" :key="picture.id">
+        <div class="content">
+          <div class="overlay"></div>
+          <img class="photothumb" :src="picture.urls.full" @load="rendered" />
+          <div class="desc">
+            <p>{{ picture.user.first_name }} {{ picture.user.last_name }}</p>
+            <p>{{ picture.user.location }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  import api from "../../../utils/api";
+  import Loader from "../Loader/loader";
+  export default {
+    components: {
+      Loader,
+    },
+    data() {
+      return {
+        pictures: [],
+        loadedImage: 0,
+        showPictures: false,
+        loading: false,
+      };
+    },
+    created() {
+      this.getAllPictures();
+      let masonryEvents = ["load", "resize"];
+      masonryEvents.forEach((event) => {
+        window.addEventListener(event, this.resizeAllGridItems);
+      });
+    },
+    watch: {
+      loadedImage(val) {
+        if (val === this.pictures.length) {
+          //   this.showPictures = true;
+          this.resizeAllGridItems();
+        }
+      },
+    },
+    methods: {
+      getAllPictures() {
+        this.loading = true;
+        api
+          .getPictures()
+          .then(({ data }) => {
+            this.pictures = data;
+            console.log(data);
+            this.loading = false;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      },
+      resizeAllGridItems() {
+        let allItems = document.getElementsByClassName("item");
+        for (let i = 0; i < allItems.length; i++) {
+          this.resizeMasonryItem(allItems[i]);
+        }
+      },
+      resizeMasonryItem(item) {
+        /* Get the grid object, its row-gap, and the size of its implicit rows */
+        let grid = document.getElementsByClassName("grid")[0],
+          rowGap = parseInt(
+            window.getComputedStyle(grid).getPropertyValue("grid-row-gap")
+          ),
+          rowHeight = parseInt(
+            window.getComputedStyle(grid).getPropertyValue("grid-auto-rows")
+          );
+        let rowSpan = Math.ceil(
+          (item.querySelector(".content").getBoundingClientRect().height +
+            rowGap) /
+            (rowHeight + rowGap)
+        );
+
+        /* Set the spanning as calculated above (S) */
+        item.style.gridRowEnd = "span " + rowSpan;
+      },
+      rendered() {
+        this.loadedImage++;
+        console.log(this.loadedImage);
+      },
+    },
+  };
+</script>
+<style lang="scss" scoped>
+  .loader {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+  }
+  .container {
+    width: 65%;
+    margin: auto;
+    transform: translateY(-2.5rem);
+
+    .grid {
+      display: grid;
+      grid-gap: 10px;
+      grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+      grid-auto-rows: 10px;
+
+      .item {
+        background-color: #ffffff;
+        border-radius: 10px;
+        position: relative;
+        border-radius: 5px;
+        cursor: pointer;
+
+        .photothumb {
+          width: 100%;
+        }
+        .overlay {
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          border-radius: 5px;
+          top: 0;
+          background: linear-gradient(
+            180deg,
+            transparent 0,
+            transparent 30%,
+            #000
+          );
+          opacity: 0.8;
+          z-index: 1;
+        }
+        .content {
+          position: relative;
+        }
+
+        .desc {
+          position: absolute;
+          color: white;
+          bottom: 1rem;
+          left: 1rem;
+          z-index: 2;
+        }
+      }
+
+      .item img {
+        height: 100%;
+        border-radius: 5px;
+
+        width: 100%;
+      }
+    }
+
+    .masonry-with-columns {
+      //   text-align: center;
+      columns: 3 200px;
+      column-gap: 1rem;
+      div {
+        width: 200px;
+        background: #f5f5f5;
+        color: white;
+        margin: 0 1rem 1rem 0;
+        display: inline-block;
+        width: 100%;
+        // text-align: center;
+        font-family: system-ui;
+        font-weight: 900;
+        font-size: 2rem;
+        border-radius: 5px;
+      }
+      @for $i from 1 through 36 {
+        div:nth-child(#{$i}) {
+          $h: (random(400) + 100) + px;
+          height: $h;
+          line-height: $h;
+        }
+      }
+    }
+  }
+</style>
