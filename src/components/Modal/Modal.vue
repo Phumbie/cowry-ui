@@ -37,9 +37,10 @@
       <g></g>
       <g></g>
     </svg>
-    <div class="modal-content">
+    <div class="lds-dual-ring" v-if="visibility === 'hidden'"></div>
+    <div :style="{ visibility: visibility }" class="modal-content">
       <div class="modal__image">
-        <img :src="displayInfo.urls.regular" alt="" />
+        <img :src="displayInfo.urls.regular" alt="" @load="showImage" />
         <div>
           <h4>
             {{ displayInfo.user.first_name }}
@@ -53,6 +54,11 @@
 </template>
 <script>
   export default {
+    data() {
+      return {
+        visibility: "hidden",
+      };
+    },
     // inheritAttrs: false,
     mounted() {
       document.body.style.overflow = "hidden";
@@ -63,6 +69,10 @@
     methods: {
       closeModal() {
         this.$store.commit("SHOW_MODAL", false);
+      },
+      showImage() {
+        console.log("show");
+        this.visibility = "initial";
       },
     },
     computed: {
@@ -134,6 +144,35 @@
           color: var(--primary-blue);
         }
       }
+    }
+  }
+
+  .lds-dual-ring {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    position: absolute;
+
+    left: calc(50% - 40px);
+    top: 40%;
+  }
+  .lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
     }
   }
 </style>
