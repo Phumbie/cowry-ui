@@ -33,7 +33,7 @@ export default new Vuex.Store({
         .getPictures(term)
         .then(({ data }) => {
           commit("GET_ALL_PICTURES", data);
-          commit("SET_LOADING", false);
+          // commit("SET_LOADING", false);
         })
         .catch((err) => {
           console.log(err);

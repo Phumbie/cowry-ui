@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Loader v-if="loading" />
-    <div class="grid" ref="grid" v-else>
+    <div :style="{ visibility: visibility }" class="grid" ref="grid" v-else>
       <div
         class="item photo"
         v-for="picture in pictures"
@@ -32,6 +32,7 @@
         // pictures: [],
         loadedImage: 0,
         showPictures: false,
+        visibility: "hidden",
         // loading: false,
       };
     },
@@ -65,6 +66,7 @@
         masonryEvents.forEach((event) => {
           window.addEventListener(event, this.resizeAllGridItems);
         });
+        this.$store.commit("SET_LOADING", false);
       },
     },
     methods: {
@@ -91,12 +93,14 @@
 
         /* Set the spanning as calculated above (S) */
         item.style.gridRowEnd = "span " + rowSpan;
+        this.visibility = "initial";
       },
       rendered() {
         if (this.loadedImage === this.pictures.length) {
           this.loadedImage = 0;
         }
         this.loadedImage++;
+        // console.log(event.target.complete, this.loadedImage);
       },
       showInfo(value) {
         this.$store.commit("SHOW_MODAL", true);
@@ -124,6 +128,7 @@
       grid-gap: 10px;
       grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
       grid-auto-rows: 10px;
+      //   visibility: hidden;
 
       @media only screen and (max-width: 600px) {
         grid-template-columns: 1fr;
