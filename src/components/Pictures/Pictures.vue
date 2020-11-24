@@ -2,7 +2,12 @@
   <div class="container">
     <Loader v-if="loading" />
     <div class="grid" ref="grid" v-else>
-      <div class="item photo" v-for="picture in pictures" :key="picture.id">
+      <div
+        class="item photo"
+        v-for="picture in pictures"
+        :key="picture.id"
+        @click="showInfo(picture)"
+      >
         <div class="content">
           <div class="overlay"></div>
           <img class="photothumb" :src="picture.urls.full" @load="rendered" />
@@ -24,41 +29,45 @@
     },
     data() {
       return {
-        pictures: [],
+        // pictures: [],
         loadedImage: 0,
         showPictures: false,
-        loading: false,
+        // loading: false,
       };
     },
     created() {
-      this.getAllPictures();
+      this.$store.dispatch("getAllPictures");
       let masonryEvents = ["load", "resize"];
       masonryEvents.forEach((event) => {
         window.addEventListener(event, this.resizeAllGridItems);
       });
     },
+    computed: {
+      pictures() {
+        return this.$store.state.pictures;
+      },
+      loading() {
+        return this.$store.state.loading;
+      },
+    },
     watch: {
       loadedImage(val) {
+        // console.log(val);
         if (val === this.pictures.length) {
-          //   this.showPictures = true;
+          this.showPictures = true;
           this.resizeAllGridItems();
         }
       },
+      pictures() {
+        this.loadedImage;
+        let masonryEvents = ["load", "resize"];
+
+        masonryEvents.forEach((event) => {
+          window.addEventListener(event, this.resizeAllGridItems);
+        });
+      },
     },
     methods: {
-      getAllPictures() {
-        this.loading = true;
-        api
-          .getPictures()
-          .then(({ data }) => {
-            this.pictures = data;
-            console.log(data);
-            this.loading = false;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      },
       resizeAllGridItems() {
         let allItems = document.getElementsByClassName("item");
         for (let i = 0; i < allItems.length; i++) {
@@ -84,8 +93,14 @@
         item.style.gridRowEnd = "span " + rowSpan;
       },
       rendered() {
+        if (this.loadedImage === this.pictures.length) {
+          this.loadedImage = 0;
+        }
         this.loadedImage++;
-        console.log(this.loadedImage);
+      },
+      showInfo(value) {
+        this.$store.commit("SHOW_MODAL", true);
+        this.$store.commit("DISPLAY_INFO", value);
       },
     },
   };
@@ -100,11 +115,22 @@
     margin: auto;
     transform: translateY(-2.5rem);
 
+    @media only screen and (max-width: 600px) {
+      width: 80%;
+    }
+
     .grid {
       display: grid;
       grid-gap: 10px;
       grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
       grid-auto-rows: 10px;
+
+      @media only screen and (max-width: 600px) {
+        grid-template-columns: 1fr;
+      }
+      @media only screen and (min-width: 768px) and (max-width: 768px) {
+        grid-template-columns: repeat(auto-fill, minmax(35%, 1fr));
+      }
 
       .item {
         background-color: #ffffff;

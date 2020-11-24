@@ -1,7 +1,12 @@
 <template>
   <div>
     <header class="heading">
-      <div class="search">
+      <div class="result" v-if="display">
+        <h1>
+          Search Results for <span class="specific">"{{ result }}"</span>
+        </h1>
+      </div>
+      <div class="search" v-else>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -36,17 +41,37 @@
           <g></g>
           <g></g>
         </svg>
-        <input type="text" placeholder="Search for photo" name="search" />
+        <input
+          type="text"
+          placeholder="Search for photo"
+          name="search"
+          v-model="result"
+          @keyup.enter="submit"
+        />
       </div>
     </header>
   </div>
 </template>
 <script>
-  export default {};
+  export default {
+    data() {
+      return {
+        result: "",
+        display: false,
+      };
+    },
+    methods: {
+      submit() {
+        this.display = true;
+        this.$store.dispatch("getAllPictures", this.result);
+      },
+    },
+  };
 </script>
 <style lang="scss" scoped>
   * {
     --primary-blue: #dde2e9;
+    --dark-blue: #283a5a;
   }
 
   .heading {
@@ -75,6 +100,13 @@
       svg {
         height: 1.5rem;
         fill: #cecece;
+      }
+    }
+    .result {
+      color: var(--dark-blue);
+
+      .specific {
+        opacity: 0.5;
       }
     }
   }

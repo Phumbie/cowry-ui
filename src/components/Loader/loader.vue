@@ -46,6 +46,13 @@
     flex-direction: column;
     flex-wrap: wrap;
     max-height: 800px;
+    @media only screen and (max-width: 600px) {
+      flex-wrap: nowrap;
+      max-height: 100%;
+    }
+    @media only screen and (min-width: 768px) and (max-width: 768px) {
+      max-height: 1300px;
+    }
     div {
       width: 30%;
       background: #f5f5f5;
@@ -61,6 +68,14 @@
 
       div {
         margin-left: 1rem;
+      }
+
+      @media only screen and (max-width: 600px) {
+        width: 100%;
+      }
+
+      @media only screen and (min-width: 768px) and (max-width: 768px) {
+        width: 50%;
       }
     }
     // @for $i from 1 through 36 {
