@@ -17,6 +17,7 @@ export default new Vuex.Store({
     },
     GET_ALL_PICTURES(state, val) {
       state.pictures = val;
+      console.log(val);
     },
     SHOW_MODAL(state, val) {
       state.showModal = val;

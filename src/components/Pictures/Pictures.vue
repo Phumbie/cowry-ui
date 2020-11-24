@@ -10,7 +10,7 @@
       >
         <div class="content">
           <div class="overlay"></div>
-          <img class="photothumb" :src="picture.urls.full" @load="rendered" />
+          <img class="photothumb" :src="picture.urls.small" @load="rendered" />
           <div class="desc">
             <p>{{ picture.user.first_name }} {{ picture.user.last_name }}</p>
             <p>{{ picture.user.location }}</p>
