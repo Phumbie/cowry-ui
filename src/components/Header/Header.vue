@@ -114,7 +114,10 @@
     }
     .result {
       color: var(--dark-blue);
-
+      width: 70%;
+      // h1 {
+      //   margin: 0 0.5rem;
+      // }
       .specific {
         opacity: 0.5;
       }
