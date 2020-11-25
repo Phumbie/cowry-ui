@@ -13,7 +13,7 @@
             <div class="overlay"></div>
             <img
               class="photothumb"
-              :src="picture.urls.small"
+              :src="picture.urls.regular"
               @load="rendered"
             />
             <div class="desc">
@@ -146,7 +146,7 @@
         & .photothumb {
           width: 100%;
         }
-        &.overlay {
+        .overlay {
           position: absolute;
           height: 100%;
           width: 100%;
@@ -158,7 +158,7 @@
             transparent 30%,
             #000
           );
-          opacity: 0.8;
+          // opacity: 0.9;
           z-index: 1;
         }
         & .content {
