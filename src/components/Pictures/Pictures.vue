@@ -9,6 +9,11 @@
     components: {
       Grid,
     },
+    data() {
+      return {
+        bottom: "",
+      };
+    },
     created() {
       this.$store.dispatch("getAllPictures");
     },

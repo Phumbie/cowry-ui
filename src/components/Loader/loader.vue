@@ -67,6 +67,10 @@
       justify-content: flex-end;
 
       div {
+        // margin-left: 1rem;
+        display: flex;
+        // margin-left: 0.2rem;
+        width: 50%;
         margin-left: 1rem;
       }
 
