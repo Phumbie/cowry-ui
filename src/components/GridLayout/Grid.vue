@@ -122,7 +122,7 @@
       width: 80%;
     }
 
-    .grid {
+    & .grid {
       display: grid;
       grid-gap: 10px;
       grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
@@ -136,17 +136,17 @@
         grid-template-columns: repeat(auto-fill, minmax(35%, 1fr));
       }
 
-      .item {
+      & .item {
         background-color: #ffffff;
         border-radius: 10px;
         position: relative;
         border-radius: 5px;
         cursor: pointer;
 
-        .photothumb {
+        & .photothumb {
           width: 100%;
         }
-        .overlay {
+        &.overlay {
           position: absolute;
           height: 100%;
           width: 100%;
@@ -161,11 +161,11 @@
           opacity: 0.8;
           z-index: 1;
         }
-        .content {
+        & .content {
           position: relative;
         }
 
-        .desc {
+        & .desc {
           position: absolute;
           color: white;
           bottom: 1rem;
@@ -174,7 +174,7 @@
         }
       }
 
-      .item img {
+      & .item img {
         height: 100%;
         border-radius: 5px;
 

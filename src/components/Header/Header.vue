@@ -90,7 +90,7 @@
     display: grid;
     place-items: center;
 
-    .search {
+    & .search {
       display: flex;
       background-color: white;
       border-radius: 5px;
@@ -98,16 +98,16 @@
       width: 70%;
       margin: auto;
 
-      input {
+      & input {
         border: none;
         outline: none;
         width: 100%;
         margin-left: 1rem;
       }
-      input::placeholder {
+      & input::placeholder {
         color: var(--primary-blue);
       }
-      svg {
+      & svg {
         height: 1.5rem;
         fill: #cecece;
       }
@@ -118,7 +118,7 @@
       // h1 {
       //   margin: 0 0.5rem;
       // }
-      .specific {
+      & .specific {
         opacity: 0.5;
       }
     }

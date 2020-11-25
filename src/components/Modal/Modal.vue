@@ -95,7 +95,7 @@
     background-color: rgba(0, 0, 0, 0.6);
     top: 0;
 
-    svg {
+    & svg {
       fill: white;
       height: 1.3rem;
       width: 1.3rem;
@@ -110,7 +110,7 @@
         right: 2rem;
       }
     }
-    .modal-content {
+    & .modal-content {
       display: flex;
       height: 80%;
       text-align: center;
@@ -119,28 +119,28 @@
       margin-top: 2rem;
       border-radius: 5px;
 
-      .modal__image {
+      & .modal__image {
         max-width: 90%;
         margin: auto;
         border-radius: 10px;
         background-color: white;
       }
-      .modal__image img {
+      & .modal__image img {
         max-width: 100%;
         max-height: 30rem;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
       }
-      .modal__image div {
+      & .modal__image div {
         text-align: left;
         position: relative;
         left: 2rem;
         margin: auto;
 
-        h4 {
+        & h4 {
           color: var(--dark-blue);
         }
-        p {
+        & p {
           color: var(--primary-blue);
         }
       }
