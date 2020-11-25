@@ -40,7 +40,7 @@
     <div class="lds-dual-ring" v-if="visibility === 'hidden'"></div>
     <div :style="{ visibility: visibility }" class="modal-content">
       <div class="modal__image">
-        <img :src="displayInfo.urls.regular" alt="" @load="showImage" />
+        <img :src="displayInfo.urls.small" alt="" @load="showImage" />
         <div>
           <h4>
             {{ displayInfo.user.first_name }}
