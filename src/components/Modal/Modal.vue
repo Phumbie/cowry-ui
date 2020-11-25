@@ -71,7 +71,7 @@
         this.$store.commit("SHOW_MODAL", false);
       },
       showImage() {
-        console.log("show");
+        // console.log("show");
         this.visibility = "initial";
       },
     },

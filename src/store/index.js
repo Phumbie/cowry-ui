@@ -10,6 +10,7 @@ export default new Vuex.Store({
     pictures: [],
     showModal: false,
     showInfo: "",
+    searchPictures: [],
   },
   mutations: {
     SET_LOADING(state, val) {
@@ -17,24 +18,47 @@ export default new Vuex.Store({
     },
     GET_ALL_PICTURES(state, val) {
       state.pictures = val;
-      console.log(val);
+      // console.log(val);
     },
     SHOW_MODAL(state, val) {
       state.showModal = val;
     },
     DISPLAY_INFO(state, val) {
-      console.log(val);
+      // console.log(val);
       state.showInfo = val;
+    },
+    GET_SEARCH_PICTURES(state, val) {
+      state.searchPictures = val;
+    },
+    EMPTY_PICTURES(state) {
+      state.searchPictures = [];
     },
   },
   actions: {
-    getAllPictures({ commit }, term) {
+    getAllPictures({ commit }, search) {
       commit("SET_LOADING", true);
       api
-        .getPictures(term)
+        .getPictures(search)
         .then(({ data }) => {
-          commit("GET_ALL_PICTURES", data);
-          // commit("SET_LOADING", false);
+          // console.log(data);
+          if (data.results) {
+            commit("GET_ALL_PICTURES", data.results);
+          } else {
+            commit("GET_ALL_PICTURES", data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getSearchPictures({ commit }, search) {
+      // console.log(search);
+      commit("SET_LOADING", true);
+      api
+        .getSearchPictures(search)
+        .then(({ data }) => {
+          // console.log(data.results);
+          commit("GET_SEARCH_PICTURES", data.results);
         })
         .catch((err) => {
           console.log(err);

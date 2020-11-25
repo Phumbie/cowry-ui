@@ -1,9 +1,10 @@
 <template>
   <div>
     <header class="heading">
-      <div class="result" v-if="display">
+      <div class="result" v-if="$route.params.id">
         <h1>
-          Search Results for <span class="specific">"{{ result }}"</span>
+          Search Results for
+          <span class="specific">"{{ $route.params.id }}"</span>
         </h1>
       </div>
       <div class="search" v-else>
@@ -46,7 +47,7 @@
           placeholder="Search for photo"
           name="search"
           v-model="result"
-          @keyup.enter="submit"
+          @keyup.enter.prevent="submit"
         />
       </div>
     </header>
@@ -60,10 +61,14 @@
         display: false,
       };
     },
+    // mounted() {
+    //   console.log(this.$route);
+    // },
     methods: {
       submit() {
         this.display = true;
-        this.$store.dispatch("getAllPictures", this.result);
+        // this.$store.dispatch("getAllPictures", this.result);
+        this.$router.push(`/search/${this.result}`);
       },
     },
   };

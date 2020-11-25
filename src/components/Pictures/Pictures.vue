@@ -1,212 +1,21 @@
 <template>
-  <div class="container">
-    <Loader v-if="loading" />
-    <div :style="{ visibility: visibility }" class="grid" ref="grid" v-else>
-      <div
-        class="item photo"
-        v-for="picture in pictures"
-        :key="picture.id"
-        @click="showInfo(picture)"
-      >
-        <div class="content">
-          <div class="overlay"></div>
-          <img class="photothumb" :src="picture.urls.small" @load="rendered" />
-          <div class="desc">
-            <p>{{ picture.user.first_name }} {{ picture.user.last_name }}</p>
-            <p>{{ picture.user.location }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div>
+    <Grid :pictures="pictures" />
   </div>
 </template>
 <script>
-  import api from "../../../utils/api";
-  import Loader from "../Loader/loader";
+  import Grid from "../GridLayout/Grid";
   export default {
     components: {
-      Loader,
-    },
-    data() {
-      return {
-        // pictures: [],
-        loadedImage: 0,
-        showPictures: false,
-        visibility: "hidden",
-        // loading: false,
-      };
+      Grid,
     },
     created() {
       this.$store.dispatch("getAllPictures");
-      let masonryEvents = ["load", "resize"];
-      masonryEvents.forEach((event) => {
-        window.addEventListener(event, this.resizeAllGridItems);
-      });
     },
     computed: {
       pictures() {
         return this.$store.state.pictures;
       },
-      loading() {
-        return this.$store.state.loading;
-      },
-    },
-    watch: {
-      loadedImage(val) {
-        // console.log(val);
-        if (val === this.pictures.length) {
-          this.showPictures = true;
-          this.resizeAllGridItems();
-        }
-      },
-      pictures() {
-        this.loadedImage;
-        let masonryEvents = ["load", "resize"];
-
-        masonryEvents.forEach((event) => {
-          window.addEventListener(event, this.resizeAllGridItems);
-        });
-        this.$store.commit("SET_LOADING", false);
-      },
-    },
-    methods: {
-      resizeAllGridItems() {
-        let allItems = document.getElementsByClassName("item");
-        for (let i = 0; i < allItems.length; i++) {
-          this.resizeMasonryItem(allItems[i]);
-        }
-      },
-      resizeMasonryItem(item) {
-        /* Get the grid object, its row-gap, and the size of its implicit rows */
-        let grid = document.getElementsByClassName("grid")[0],
-          rowGap = parseInt(
-            window.getComputedStyle(grid).getPropertyValue("grid-row-gap")
-          ),
-          rowHeight = parseInt(
-            window.getComputedStyle(grid).getPropertyValue("grid-auto-rows")
-          );
-        let rowSpan = Math.ceil(
-          (item.querySelector(".content").getBoundingClientRect().height +
-            rowGap) /
-            (rowHeight + rowGap)
-        );
-
-        /* Set the spanning as calculated above (S) */
-        item.style.gridRowEnd = "span " + rowSpan;
-        this.visibility = "initial";
-      },
-      rendered() {
-        if (this.loadedImage === this.pictures.length) {
-          this.loadedImage = 0;
-        }
-        this.loadedImage++;
-        // console.log(event.target.complete, this.loadedImage);
-      },
-      showInfo(value) {
-        this.$store.commit("SHOW_MODAL", true);
-        this.$store.commit("DISPLAY_INFO", value);
-      },
     },
   };
 </script>
-<style lang="scss" scoped>
-  .loader {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
-  }
-  .container {
-    width: 65%;
-    margin: auto;
-    transform: translateY(-2.5rem);
-
-    @media only screen and (max-width: 600px) {
-      width: 80%;
-    }
-
-    .grid {
-      display: grid;
-      grid-gap: 10px;
-      grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
-      grid-auto-rows: 10px;
-      //   visibility: hidden;
-
-      @media only screen and (max-width: 600px) {
-        grid-template-columns: 1fr;
-      }
-      @media only screen and (min-width: 768px) and (max-width: 768px) {
-        grid-template-columns: repeat(auto-fill, minmax(35%, 1fr));
-      }
-
-      .item {
-        background-color: #ffffff;
-        border-radius: 10px;
-        position: relative;
-        border-radius: 5px;
-        cursor: pointer;
-
-        .photothumb {
-          width: 100%;
-        }
-        .overlay {
-          position: absolute;
-          height: 100%;
-          width: 100%;
-          border-radius: 5px;
-          top: 0;
-          background: linear-gradient(
-            180deg,
-            transparent 0,
-            transparent 30%,
-            #000
-          );
-          opacity: 0.8;
-          z-index: 1;
-        }
-        .content {
-          position: relative;
-        }
-
-        .desc {
-          position: absolute;
-          color: white;
-          bottom: 1rem;
-          left: 1rem;
-          z-index: 2;
-        }
-      }
-
-      .item img {
-        height: 100%;
-        border-radius: 5px;
-
-        width: 100%;
-      }
-    }
-
-    .masonry-with-columns {
-      //   text-align: center;
-      columns: 3 200px;
-      column-gap: 1rem;
-      div {
-        width: 200px;
-        background: #f5f5f5;
-        color: white;
-        margin: 0 1rem 1rem 0;
-        display: inline-block;
-        width: 100%;
-        // text-align: center;
-        font-family: system-ui;
-        font-weight: 900;
-        font-size: 2rem;
-        border-radius: 5px;
-      }
-      @for $i from 1 through 36 {
-        div:nth-child(#{$i}) {
-          $h: (random(400) + 100) + px;
-          height: $h;
-          line-height: $h;
-        }
-      }
-    }
-  }
-</style>
