@@ -6,7 +6,7 @@ const ACCESS_KEY = process.env.VUE_APP_UNSPLASH_KEY;
 
 export default {
   getPictures() {
-    return axios.get(`${BASE_URL}/search/photos?query="africa&per_page=8"`, {
+    return axios.get(`${BASE_URL}/search/photos?query=African&per_page=8"`, {
       params: {
         client_id: `${ACCESS_KEY}`,
       },
