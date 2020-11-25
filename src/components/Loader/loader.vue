@@ -65,6 +65,7 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
+      border-radius: 5px;
 
       div {
         // margin-left: 1rem;
