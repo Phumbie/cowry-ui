@@ -10,6 +10,7 @@
       Grid,
     },
     created() {
+      //   this.$store.commit("SEARCHING", true);
       this.$store.dispatch("getSearchPictures", this.$route.params.id);
     },
     beforeDestroy() {

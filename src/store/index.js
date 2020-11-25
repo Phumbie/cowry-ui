@@ -11,6 +11,7 @@ export default new Vuex.Store({
     showModal: false,
     showInfo: "",
     searchPictures: [],
+    searching: false,
   },
   mutations: {
     SET_LOADING(state, val) {
@@ -33,6 +34,9 @@ export default new Vuex.Store({
     EMPTY_PICTURES(state) {
       state.searchPictures = [];
     },
+    SEARCHING(state, val) {
+      state.searching = val;
+    },
   },
   actions: {
     getAllPictures({ commit }, search) {
@@ -54,11 +58,14 @@ export default new Vuex.Store({
     getSearchPictures({ commit }, search) {
       // console.log(search);
       commit("SET_LOADING", true);
+      commit("SEARCHING", true);
+
       api
         .getSearchPictures(search)
         .then(({ data }) => {
           // console.log(data.results);
           commit("GET_SEARCH_PICTURES", data.results);
+          commit("SEARCHING", false);
         })
         .catch((err) => {
           console.log(err);

@@ -2,7 +2,10 @@
   <div>
     <header class="heading">
       <div class="result" v-if="$route.params.id">
-        <h1>
+        <h1 v-if="searching">
+          Searching for <span class="specific">"{{ $route.params.id }}"</span>
+        </h1>
+        <h1 v-else>
           Search Results for
           <span class="specific">"{{ $route.params.id }}"</span>
         </h1>
@@ -61,9 +64,11 @@
         display: false,
       };
     },
-    // mounted() {
-    //   console.log(this.$route);
-    // },
+    computed: {
+      searching() {
+        return this.$store.state.searching;
+      },
+    },
     methods: {
       submit() {
         this.display = true;
