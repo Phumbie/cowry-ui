@@ -62,6 +62,7 @@
     // inheritAttrs: false,
     mounted() {
       document.body.style.overflow = "hidden";
+      console.log(this.displayInfo);
     },
     beforeDestroy() {
       document.body.style.overflow = "initial";

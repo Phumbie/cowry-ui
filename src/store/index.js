@@ -63,7 +63,6 @@ export default new Vuex.Store({
       api
         .getSearchPictures(search)
         .then(({ data }) => {
-          // console.log(data.results);
           commit("GET_SEARCH_PICTURES", data.results);
           commit("SEARCHING", false);
         })

@@ -23,6 +23,9 @@
           </div>
         </div>
       </div>
+      <h1 v-if="!pictures.length">
+        Sorry! there are no results for your search😥
+      </h1>
     </div>
   </div>
 </template>
@@ -62,14 +65,18 @@
           this.resizeAllGridItems();
         }
       },
-      pictures() {
+      pictures(val) {
         this.loadedImage;
-        let masonryEvents = ["load", "resize"];
+        if (!val.length) {
+          this.visibility = "initial";
+        } else {
+          let masonryEvents = ["load", "resize"];
 
-        masonryEvents.forEach((event) => {
-          window.addEventListener(event, this.resizeAllGridItems);
-        });
-        this.$store.commit("SET_LOADING", false);
+          masonryEvents.forEach((event) => {
+            window.addEventListener(event, this.resizeAllGridItems);
+          });
+          this.$store.commit("SET_LOADING", false);
+        }
       },
     },
     methods: {
@@ -113,6 +120,9 @@
   };
 </script>
 <style lang="scss" scoped>
+  * {
+    --primary-blue: #283a5a;
+  }
   .container {
     width: 65%;
     margin: auto;
@@ -120,6 +130,12 @@
 
     @media only screen and (max-width: 600px) {
       width: 80%;
+    }
+    h1 {
+      text-align: center;
+      height: 100%;
+      transform: translateY(2.5rem);
+      color: var(--primary-blue);
     }
 
     & .grid {
