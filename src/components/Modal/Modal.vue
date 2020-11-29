@@ -99,8 +99,8 @@
     z-index: 200;
     background-color: rgba(0, 0, 0, 0.6);
     top: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
+    // overflow-y: auto;
+    // overflow-x: hidden;
 
     & svg {
       fill: white;
