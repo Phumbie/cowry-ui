@@ -1,5 +1,5 @@
 <template>
-  <div class="modal">
+  <div class="modal" @click="closeOutside">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -62,7 +62,6 @@
     // inheritAttrs: false,
     mounted() {
       document.body.style.overflow = "hidden";
-      console.log(this.displayInfo);
     },
     beforeDestroy() {
       document.body.style.overflow = "initial";
@@ -74,6 +73,11 @@
       showImage() {
         // console.log("show");
         this.visibility = "initial";
+      },
+      closeOutside(event) {
+        if (event.target.className === "modal") {
+          this.$store.commit("SHOW_MODAL", false);
+        }
       },
     },
     computed: {
@@ -95,6 +99,8 @@
     z-index: 200;
     background-color: rgba(0, 0, 0, 0.6);
     top: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     & svg {
       fill: white;
@@ -106,43 +112,57 @@
       cursor: pointer;
 
       @media only screen and (max-width: 600px) {
-        width: 0.8rem;
-        top: 1rem;
-        right: 2rem;
+        // width: 0.8rem;
+        // top: 1rem;
+        // right: 2rem;
+        position: initial;
+        display: flex;
+        margin-left: auto;
+        margin-top: 0.5rem;
+        padding-right: 0.5rem;
       }
     }
     & .modal-content {
       display: flex;
-      height: 80%;
+      max-height: 80vh;
       text-align: center;
-      //   margin-top: 5rem;
+      margin-top: 5rem;
 
       margin-top: 2rem;
+      margin-bottom: 2rem;
       border-radius: 5px;
 
-      & .modal__image {
+      .modal__image {
         max-width: 90%;
         margin: auto;
         border-radius: 10px;
         background-color: white;
+        // max-height: 80vh;
+        margin-top: 3rem;
+        @media only screen and (max-width: 600px) {
+          margin-top: 0;
+        }
       }
       & .modal__image img {
         max-width: 100%;
-        max-height: 30rem;
+        max-height: 100%;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
       }
-      & .modal__image div {
+      .modal__image div {
         text-align: left;
         position: relative;
         left: 2rem;
         margin: auto;
+        padding: 0.5rem;
 
         & h4 {
           color: var(--dark-blue);
+          margin: auto;
         }
         & p {
           color: var(--primary-blue);
+          margin: auto;
         }
       }
     }

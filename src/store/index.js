@@ -10,7 +10,7 @@ export default new Vuex.Store({
     pictures: [],
     showModal: false,
     showInfo: "",
-    searchPictures: [],
+    searchPictures: null,
     searching: false,
   },
   mutations: {

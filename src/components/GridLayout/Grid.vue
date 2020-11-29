@@ -23,7 +23,7 @@
           </div>
         </div>
       </div>
-      <h1 v-if="!pictures.length">
+      <h1 v-if="pictures.length === 0">
         Sorry! there are no results for your search😥
       </h1>
     </div>
