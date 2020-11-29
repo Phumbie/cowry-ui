@@ -23,9 +23,9 @@
           </div>
         </div>
       </div>
-      <h1 v-if="pictures.length === 0">
+      <!-- <h1 v-if="!pictures.length">
         Sorry! there are no results for your search😥
-      </h1>
+      </h1> -->
     </div>
   </div>
 </template>
