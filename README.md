@@ -3,7 +3,11 @@
 ## Project setup
 ```
 npm install
-```
+``
+
+## The live code can be found here : https://busayo-cowry.netlify.app/
+
+the projects makes use of CSS grid and javascript to achieve the desired layout, pictures were gotten from www.unsplash.com
 
 ### Compiles and hot-reloads for development
 ```
